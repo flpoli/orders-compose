@@ -1,5 +1,6 @@
 package com.example.mockprobleminha.produtos
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -27,6 +28,22 @@ class ProductListViewModel @Inject constructor(
             state = state.copy(
                 allProducts = repository.getProducts()
             )
+        }
+    }
+
+    fun onProductChecked(product: ProductModel, isSelected: Boolean){
+
+        Log.d("Product", "$product")
+        viewModelScope.launch {
+            state = state.copy(
+                selectedProducts = state.selectedProducts?.map {
+                    if(it.product == product){
+                        it.copy(isSelected = true)
+                    } else it
+                }
+            )
+            Log.d("STate", "$state")
+
         }
     }
 }
