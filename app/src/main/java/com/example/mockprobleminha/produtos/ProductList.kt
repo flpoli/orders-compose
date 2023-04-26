@@ -2,6 +2,7 @@ package com.example.mockprobleminha.produtos
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Checkbox
+import androidx.compose.ui.Alignment
 
 
 @Composable
@@ -34,9 +36,8 @@ fun ProductScreen(
     ){
         items(state.allProducts){
                 product -> ProductInfoBox(
-                    selectableProduct = product,
-                    onSelectProduct = { vm.onProductChecked(product = product) }
-        )
+                    selectableProduct = product
+        ) { vm.onProductChecked(product = product) }
         }
     }
 
@@ -46,10 +47,12 @@ fun ProductScreen(
 @Composable
 fun ProductInfoBox(
     selectableProduct: ProductModel,
-    onSelectProduct: (ProductModel, Boolean) -> Unit
+    onSelectProduct: (ProductModel) -> Unit
 ) {
 
     Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ){
 
@@ -57,7 +60,7 @@ fun ProductInfoBox(
         Checkbox(
             checked = selectableProduct.isSelected ,
             onCheckedChange = {
-                onSelectProduct(selectableProduct, it)
+                onSelectProduct(selectableProduct)
             }
         )
 
@@ -67,8 +70,8 @@ fun ProductInfoBox(
                 .border(BorderStroke(1.dp, Color.LightGray), RoundedCornerShape(8.dp))
                 .fillMaxSize()
         ) {
-            Text(text = "código: ${selectableProduct.descricao}")
-            Text(text = "descrição: ${selectableProduct.descricao}")
+            Text(text = "código: ${selectableProduct.descricao}", modifier = Modifier.padding(4.dp))
+            Text(text = "descrição: ${selectableProduct.descricao}", modifier = Modifier.padding(4.dp))
         }
 
     }

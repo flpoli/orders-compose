@@ -3,7 +3,9 @@ package com.example.mockprobleminha.clientes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.lazy.items
@@ -23,7 +25,9 @@ fun ClientScreen(
 ) {
 
     val state = remember { vm.state }
-    LazyColumn(){
+    LazyColumn(
+        contentPadding = PaddingValues(12.dp)
+    ){
         items(state.listClient){
             client -> ClientInfoBox(client = client)
         }
@@ -35,12 +39,13 @@ fun ClientInfoBox(client: ClientModel) {
 
     Column(
         modifier = Modifier
+            .padding(8.dp)
             .border(BorderStroke(1.dp, Color.LightGray), RoundedCornerShape(8.dp))
             .fillMaxSize()
     ) {
 
-        Text(text = "nome: ${client.nome}")
-        Text(text = "cpf: ${client.cpf}")
+        Text(text = "nome: ${client.nome}", modifier = Modifier.padding(4.dp))
+        Text(text = "cpf: ${client.cpf}", modifier = Modifier.padding(4.dp))
 
     }
 

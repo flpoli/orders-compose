@@ -31,7 +31,7 @@ class ProductListViewModel @Inject constructor(
         }
     }
 
-    fun onProductChecked(product: ProductModel, isSelected: Boolean){
+    fun onProductChecked(product: ProductModel){
 
         Log.d("Product", "$product")
         viewModelScope.launch {
