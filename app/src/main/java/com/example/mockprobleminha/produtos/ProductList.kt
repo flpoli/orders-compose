@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.ui.Alignment
 
@@ -31,7 +32,7 @@ fun ProductScreen(
     vm: ProductListViewModel = hiltViewModel()
     ) {
 
-    val state = vm.state
+    val state = vm.state // why "remember" wont work here? delegation on vm?
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp)
@@ -42,6 +43,12 @@ fun ProductScreen(
                 onSelectProduct = { vm.onProductChecked(product.product) }
             )
 
+        }
+
+        item {
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "finalizar seleção")
+            }
         }
     }
 }

@@ -46,7 +46,7 @@ class ProductListViewModel @Inject constructor(
                     } else it
                 }
             )
-            Log.d("STate", "$state")
+            Log.d("State", "$state")
 
         }
     }
