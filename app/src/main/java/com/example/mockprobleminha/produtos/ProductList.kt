@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -29,25 +31,26 @@ fun ProductScreen(
     vm: ProductListViewModel = hiltViewModel()
     ) {
 
-    val state = remember { vm.state }
+    val state = vm.state
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp)
-    ){
-        items(state.allProducts){
-                product -> ProductInfoBox(
-                    selectableProduct = product
-        ) { vm.onProductChecked(product = product) }
+    ) {
+        items(state.selectableProduct) { product ->
+            ProductInfoBox(
+                selectableProduct = product,
+                onSelectProduct = { vm.onProductChecked(product.product) }
+            )
+
         }
     }
-
 }
 
 
 @Composable
 fun ProductInfoBox(
-    selectableProduct: ProductModel,
-    onSelectProduct: (ProductModel) -> Unit
+    selectableProduct: SelectableProductUiState,
+    onSelectProduct: (Boolean) -> Unit
 ) {
 
     Row(
@@ -56,12 +59,9 @@ fun ProductInfoBox(
         modifier = Modifier.fillMaxWidth()
     ){
 
-        // buguei aqui 🥵
         Checkbox(
             checked = selectableProduct.isSelected ,
-            onCheckedChange = {
-                onSelectProduct(selectableProduct)
-            }
+            onCheckedChange = onSelectProduct
         )
 
         Column(
@@ -70,11 +70,9 @@ fun ProductInfoBox(
                 .border(BorderStroke(1.dp, Color.LightGray), RoundedCornerShape(8.dp))
                 .fillMaxSize()
         ) {
-            Text(text = "código: ${selectableProduct.descricao}", modifier = Modifier.padding(4.dp))
-            Text(text = "descrição: ${selectableProduct.descricao}", modifier = Modifier.padding(4.dp))
+            Text(text = "código: ${selectableProduct.product.codigo}", modifier = Modifier.padding(4.dp))
+            Text(text = "descrição: ${selectableProduct.product.descricao}", modifier = Modifier.padding(4.dp))
         }
 
     }
-
-
 }

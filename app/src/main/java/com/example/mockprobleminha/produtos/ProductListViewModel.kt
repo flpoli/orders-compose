@@ -15,18 +15,22 @@ class ProductListViewModel @Inject constructor(
     private val repository: IProductRepository
 ): ViewModel() {
 
-    var state by mutableStateOf(ProductUiModel())
+    var state by mutableStateOf(ProductSelectionState())
+        private set
 
     init {
         getProductList()
     }
 
 
-    private fun getProductList(){
+    private fun getProductList() {
         viewModelScope.launch {
 
+            val selectableProd = repository.getProducts().map {
+                SelectableProductUiState(it)
+            }
             state = state.copy(
-                allProducts = repository.getProducts()
+                selectableProduct = selectableProd
             )
         }
     }
@@ -36,9 +40,9 @@ class ProductListViewModel @Inject constructor(
         Log.d("Product", "$product")
         viewModelScope.launch {
             state = state.copy(
-                selectedProducts = state.selectedProducts?.map {
+                selectableProduct = state.selectableProduct.map {
                     if(it.product == product){
-                        it.copy(isSelected = true)
+                        it.copy(isSelected = !it.isSelected)
                     } else it
                 }
             )
