@@ -22,7 +22,6 @@ class ProductListViewModel @Inject constructor(
         getProductList()
     }
 
-
     private fun getProductList() {
         viewModelScope.launch {
 

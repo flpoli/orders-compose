@@ -20,9 +20,11 @@ fun OrderScreen(
     selectedClient: ClientModel?,
     onNavToClientList: () -> Unit,
     onNavToProductList: () -> Unit,
+    onNavToDepois: (ClientModel?) -> Unit,
+    productList: List<ProductModel>?,
+    client: ClientModel?,
     vm: OrderViewModel = viewModel()
 ) {
-
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -30,12 +32,17 @@ fun OrderScreen(
     ) {
 
         ClientSection(
-            onNavToClientList = onNavToClientList
+            onNavToClientList = onNavToClientList,
+            selectedClient = client,
         )
         ProductSection(
-            onNavToProductList = onNavToProductList
+            onNavToProductList = onNavToProductList,
+            selectedProducts = productList,
         )
 
+        Button(onClick = { onNavToDepois(client) }) {
+            Text(text = "Nav to Depois")
+        }
     }
 }
 
@@ -67,7 +74,7 @@ fun ClientSection(
 fun ProductSection(
     onNavToProductList: () -> Unit,
     selectedProducts: List<ProductModel>? = null
-    ) {
+) {
 
 
     Column {
