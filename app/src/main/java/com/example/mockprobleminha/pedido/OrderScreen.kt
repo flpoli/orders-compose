@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +27,11 @@ fun OrderScreen(
     client: ClientModel?,
     vm: OrderViewModel = viewModel()
 ) {
+
+    LaunchedEffect(key1 = selectedClient, key2 = productList ){
+        vm.setData(selectedClient, productList)
+    }
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
